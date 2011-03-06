@@ -63,7 +63,7 @@ function sheet2json() {
           break;
             }
       }
-      var valueRange = sheet.getRange(1, 1, parseInt(rowIndex)+1, parseInt(colIndex)+1);
+      var valueRange = sheet.getRange(1, 1, parseInt(rowIndex), parseInt(colIndex));
       
       return valueRange;
     }

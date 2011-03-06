@@ -15,6 +15,7 @@ function onOpen() {
  * main
  */
 function sheet2json() {
+  Logger.log("sheet2json:"+new Date().toLocaleString());
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var as = ss.getActiveSheet();
   var id = "";
@@ -27,47 +28,14 @@ function sheet2json() {
  *シートをjsonに変換するkeyとvalueの範囲を指定する。
  */
 function generateSheet2Json(sheet, id, type){
-  var ranges = getKeyValueRanges(sheet);
-  var keys = ranges.keyRange.getValues()[0];
-  var values = ranges.valueRange.getValues();
-  return generateJsons(keys, values, id, type); 
-}
-
-/*
- *keyとvalueの範囲を指定する。
- */
-//TODO 分離したい
-function getKeyValueRanges(sheet){
-  var range = {};
-  var colIndex = 1;
-  while(true){
-    range = sheet.getRange(1, colIndex, 1, 1);
-    var value = range.getValue();
-    if(!value){
-      break;
-    }
-    colIndex++;
-  }
-  var valueRange = getValueRange(sheet, colIndex);
-  var keyRange = sheet.getRange(1, 1, 1, colIndex-1);
-  return {keyRange:keyRange,valueRange:valueRange};
-}
-  
-/*
- *valueの範囲を指定する。
- */
-function getValueRange(sheet,colIndex){
-  var range = {};
-  var rowIndex = 1;
-  while(true){
-    range = sheet.getRange(rowIndex+1, 1, 1, 1);
-    var value = range.getValue();
-    if(!value){
-      break;
-    }
-    rowIndex++;
-  }
-  return sheet.getRange(2, 1, rowIndex-1, colIndex-1); 
+  Logger.log("generateSheet2Json start:"+new Date().toLocaleString());
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ranges = ss.getRangeByName(sheet.getName());
+  var keys = ranges.getValues()[0];
+  var values = ranges.getValues().slice(1);
+  var jsons = generateJsons(keys, values, id, type);
+  Logger.log("generateSheet2Json end:"+new Date().toLocaleString());
+  return jsons;
 }
 
 /*
@@ -75,7 +43,6 @@ function getValueRange(sheet,colIndex){
  */
 function generateJsons(keys, values, id, type){
   var jsons = "";
-  
   var selection = [];
   //idが指定されている場合、referと一致するレコードだけ抽出する。
   if(id){
@@ -118,37 +85,26 @@ function generateJsons(keys, values, id, type){
 function generateJson(keys, values, id){
   var json = "";
   for(var i in values){
-    Logger.log("i:"+i);
-    Logger.log("key:"+keys[i]);
-    Logger.log("value:"+values[i]);
-    
     var value = ""+values[i];
     
     //#idはjsonに出力しない。
-    Logger.log("search id:"+keys[i].search("#id"));
     if(keys[i].search("#id") != -1){
       id = value;
-      Logger.log("set id:"+id);
       continue;
     }
 
     //#referはjsonに出力しない。
-    Logger.log("search refer:"+keys[i].search("#refer"));
     if(keys[i].search("#refer") != -1){
       continue;
     }
 
     //#が含まれるvalueはシート参照先とみなす
     if(value.indexOf("#") != -1){
-      Logger.log("sheet refer:"+value);
-      Logger.log("sheet search"+value.search("]"))
       var obj_type = (value.search("]") == -1) ? "obj" : "array";
       var slice = 0;
       if(obj_type == "array"){
-        Logger.log("obj_type array");
         slice = 3;
       }else{
-        Logger.log("obj_type obj");
         slice = 1;
       }
       var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(value.slice(slice));

@@ -30,18 +30,18 @@ jsonが表示されます。
 ===例===
 user
 {|
-|#id|name|detail
+|#id||name||detail
 |-
-|1|shikajiro|#detail
+|1||shikajiro||#detail
 |-
-|2|tomokoala|#detail
+|2||tomokoala||#detail
 |}
 
 detail
 {|
-|#refer|sex
+|#refer||sex
 |-
-|1|man
+|1||man
 |-
-|2|woman
+|2||woman
 |}

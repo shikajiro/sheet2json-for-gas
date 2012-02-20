@@ -39,9 +39,9 @@ user
 
 detail
 {|
-|#refer||sex
+| #refer || sex
 |-
-|1||man
+| 1 || man
 |-
-|2||woman
+| 2 || woman
 |}

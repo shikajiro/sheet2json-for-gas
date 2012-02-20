@@ -30,11 +30,11 @@ jsonが表示されます。
 ===例===
 user
 {|
-|#id||name||detail
+| #id || name || detail
 |-
-|1||shikajiro||#detail
+| 1 || shikajiro || #detail
 |-
-|2||tomokoala||#detail
+| 2 || tomokoala || #detail
 |}
 
 detail

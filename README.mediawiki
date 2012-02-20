@@ -1,39 +1,47 @@
-**概要
-sheet2json.jsはgoogle spreadsheetで利用するgoogle apps scriptです。
-表に入力したデータをjsonに変換できます。
+=概要=
+sheet2json.jsはgoogle spreadsheetで利用するgoogle apps scriptです。<br />
+表に入力したデータをjsonに変換できます。<br />
 テスト用に素のjsonデータを作成したい場合に活用できます。
 
-**インストール
-+google shreadsheetを起動
-+ツール > スクリプトギャラリー
-+sheet2jsonで検索
-+installをクリック
+=インストール=
+# google shreadsheetを起動
+# ツール > スクリプトギャラリー
+# sheet2jsonで検索
+# installをクリック
 
-**利用方法
-***準備
--1行目はカラム名を入力
--2行目以降はレコードのデータを入力
--シート名はテーブル名を入力
-***実行
-+ツール > スクリプトマネージャ
-+onCreateを実行
-+メニューバーに scripts が表示される
-+scripts > sheet2json をクリック
+=利用方法=
+==準備==
+*1行目はカラム名を入力
+*2行目以降はレコードのデータを入力
+*シート名はテーブル名を入力
+==実行==
+#ツール > スクリプトマネージャ
+#onCreateを実行
+#メニューバーに scripts が表示される
+#scripts > sheet2json をクリック
 jsonが表示されます。
 
-**応用
-***入れ子にする場合
-+主キーになるカラムの先頭に#を付与する。
-+入れ子にしたいテーブル名をカラムに記述する。
-+入れ子になるテーブルに #refer カラムを作成し、1.で指定したidと等しくなる数値を設定する。
+=応用=
+==入れ子にする場合==
+#主キーになるカラムの先頭に#を付与する。
+#入れ子にしたいテーブル名をカラムに記述する。
+#入れ子になるテーブルに #refer カラムを作成し、1.で指定したidと等しくなる数値を設定する。
 
-例
+===例===
 user
-|#id|name|detail|h
-|1|shikajiro|#detail|
-|2|tomokoala|#detail|
+{|
+|#id|name|detail
+|-
+|1|shikajiro|#detail
+|-
+|2|tomokoala|#detail
+|}
 
 detail
-|#refer|sex|h
-|1|man|
-|2|woman|
+{|
+|#refer|sex
+|-
+|1|man
+|-
+|2|woman
+|}
